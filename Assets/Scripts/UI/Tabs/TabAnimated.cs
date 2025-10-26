@@ -11,15 +11,28 @@ namespace UI.Tabs
         [SerializeField] private Button backButton;
         [Inject] private TabsController _tabs;
 
-        private readonly float _moveAmplitude = 30f;
-        private readonly float _rotateAmplitude = 20f;
-        private readonly float _moveDuration = 1.2f;
-        private readonly float _rotateDuration = 1.5f;
+        private const float MoveAmplitude = 30f;
+        private const float RotateAmplitude = 20f;
+        private const float MoveDuration = 1.2f;
+        private const float RotateDuration = 1.5f;
 
         private Tween[] _moveTweens;
         private Tween[] _rotateTweens;
+        private Vector2[] _initialPositions;
+        private Quaternion[] _initialRotations;
 
         private void Start() => backButton.onClick.AddListener(BackToTabs);
+
+        private void Awake()
+        {
+            _initialPositions = new Vector2[animatedObjects.Length];
+            _initialRotations = new Quaternion[animatedObjects.Length];
+            for (int i = 0; i < animatedObjects.Length; i++)
+            {
+                _initialPositions[i] = animatedObjects[i].anchoredPosition;
+                _initialRotations[i] = animatedObjects[i].localRotation;
+            }
+        }
 
         private void OnEnable()
         {
@@ -31,15 +44,18 @@ namespace UI.Tabs
                 var rect = animatedObjects[i];
                 float delay = i * 0.15f;
 
-                _moveTweens[i] = rect.DOAnchorPosY(_moveAmplitude, _moveDuration)
+                rect.anchoredPosition = _initialPositions[i];
+                rect.localRotation = _initialRotations[i];
+
+                _moveTweens[i] = rect.DOAnchorPosY(_initialPositions[i].y + MoveAmplitude, MoveDuration)
                     .SetEase(Ease.InOutSine)
                     .SetLoops(-1, LoopType.Yoyo)
                     .SetDelay(delay)
                     .SetUpdate(true);
 
                 _rotateTweens[i] = rect.DOLocalRotate(
-                        new Vector3(0, 0, _rotateAmplitude),
-                        _rotateDuration)
+                        new Vector3(0, 0, RotateAmplitude),
+                        RotateDuration)
                     .SetEase(Ease.InOutSine)
                     .SetLoops(-1, LoopType.Yoyo)
                     .SetDelay(delay)
@@ -50,12 +66,22 @@ namespace UI.Tabs
         private void OnDisable()
         {
             if (_moveTweens != null)
+            {
                 foreach (var t in _moveTweens)
                     t?.Kill();
+            }
 
             if (_rotateTweens != null)
+            {
                 foreach (var t in _rotateTweens)
                     t?.Kill();
+            }
+
+            for (int i = 0; i < animatedObjects.Length; i++)
+            {
+                animatedObjects[i].anchoredPosition = _initialPositions[i];
+                animatedObjects[i].localRotation = _initialRotations[i];
+            }
         }
 
         private void BackToTabs() => _tabs.BackToMenu();
