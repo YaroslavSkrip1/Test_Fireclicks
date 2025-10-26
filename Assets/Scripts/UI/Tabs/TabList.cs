@@ -8,9 +8,9 @@ namespace UI.Tabs
 {
     public class TabList : MonoBehaviour
     {
-        [SerializeField] private RectTransform _content;
-        [SerializeField] private ScrollRect _scroll;
-        [SerializeField] private GameObject _itemPrefab;
+        [SerializeField] private RectTransform content;
+        [SerializeField] private ScrollRect scroll;
+        [SerializeField] private GameObject itemPrefab;
         [SerializeField] private Button backButton;
 
         private const int TotalCount = 1000;
@@ -22,23 +22,24 @@ namespace UI.Tabs
         private float _itemHeight;
         private float _spacing;
         private bool _initialized;
+        private float _lastScrollY;
 
         private void Awake()
         {
-            var rect = _itemPrefab.GetComponent<RectTransform>();
+            var rect = itemPrefab.GetComponent<RectTransform>();
             _itemHeight = rect.sizeDelta.y;
             _spacing = 4f;
 
             for (int i = 0; i < VisibleCount; i++)
             {
-                var go = Instantiate(_itemPrefab, _content);
+                var go = Instantiate(itemPrefab, content);
                 var view = go.GetComponent<ItemView>();
                 _pool.Add(view);
             }
 
             FixContentHeight();
 
-            _scroll.onValueChanged.AddListener(OnScroll);
+            scroll.onValueChanged.AddListener(OnScroll);
         }
 
         private void Start()
@@ -47,35 +48,37 @@ namespace UI.Tabs
             _initialized = true;
 
             Canvas.ForceUpdateCanvases();
-            _scroll.verticalNormalizedPosition = 1f;
+            scroll.verticalNormalizedPosition = 1f;
 
             UpdateVisibleItems();
         }
 
-        private void OnDestroy() => _scroll.onValueChanged.RemoveListener(OnScroll);
+        private void OnDestroy() => scroll.onValueChanged.RemoveListener(OnScroll);
 
         private void OnScroll(Vector2 pos)
         {
-            if (_initialized)
-                UpdateVisibleItems();
+            if (!_initialized) return;
+
+            float scrollY = content.anchoredPosition.y;
+            if (Mathf.Abs(scrollY - _lastScrollY) < 1f)
+                return;
+
+            _lastScrollY = scrollY;
+            UpdateVisibleItems();
         }
 
         private void FixContentHeight()
         {
             float fullHeight = TotalCount * (_itemHeight + _spacing);
-            _content.anchorMin = new Vector2(0, 1);
-            _content.anchorMax = new Vector2(1, 1);
-            _content.pivot = new Vector2(0.5f, 1);
-            _content.anchoredPosition = Vector2.zero;
-            _content.sizeDelta = new Vector2(0, fullHeight);
+            content.sizeDelta = new Vector2(0, fullHeight);
 
             Canvas.ForceUpdateCanvases();
-            _scroll.verticalNormalizedPosition = 1f;
+            scroll.verticalNormalizedPosition = 1f;
         }
 
         private void UpdateVisibleItems()
         {
-            float scrollY = _content.anchoredPosition.y;
+            float scrollY = content.anchoredPosition.y;
             int firstVisibleIndex = Mathf.FloorToInt(scrollY / (_itemHeight + _spacing));
             firstVisibleIndex = Mathf.Clamp(firstVisibleIndex, 0, TotalCount - VisibleCount);
 

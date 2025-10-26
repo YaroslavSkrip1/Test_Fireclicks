@@ -11,7 +11,7 @@ namespace UI.Tabs
 {
     public class TabTime : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _timeText;
+        [SerializeField] private TMP_Text timeText;
         [SerializeField] private Button backButton;
         
         private StringBuilder _sb = new();
@@ -46,7 +46,7 @@ namespace UI.Tabs
                     .Append(now.Second.ToString("D2")).Append(".")
                     .Append(now.Millisecond.ToString("D3"));
 
-                _timeText.SetText(_sb);
+                timeText.SetText(_sb);
                 await UniTask.Yield(PlayerLoopTiming.Update, token);
             }
         }

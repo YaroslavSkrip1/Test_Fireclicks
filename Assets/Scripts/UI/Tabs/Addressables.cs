@@ -11,9 +11,9 @@ namespace UI.Tabs
         [Inject] private DiContainer _container;
         [Inject] private ProjectConfig _config;
 
-        [SerializeField] private Transform _parent;
-        [SerializeField] private bool _injectDependencies = true;
-        [SerializeField] private bool _setActiveAfterSpawn = true;
+        [SerializeField] private Transform parent;
+        private bool _injectDependencies = true;
+        private bool _setActiveAfterSpawn = true;
 
         private readonly List<GameObject> _spawnedTabs = new();
 
@@ -29,7 +29,7 @@ namespace UI.Tabs
             {
                 string key = _config.TabKeys[i];
 
-                var handle = UnityEngine.AddressableAssets.Addressables.InstantiateAsync(key, _parent ?? transform);
+                var handle = UnityEngine.AddressableAssets.Addressables.InstantiateAsync(key, parent ?? transform);
                 var instance = await handle.ToUniTask();
 
                 if (instance == null)

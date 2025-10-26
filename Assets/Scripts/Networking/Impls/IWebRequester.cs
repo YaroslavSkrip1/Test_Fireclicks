@@ -4,6 +4,6 @@ namespace Networking.Impls
 {
     public interface IWebRequester
     {
-        UniTask<string> Get(string url);
+        UniTask<string> Get(string url ,int timeoutSeconds = 10);
     }
 }

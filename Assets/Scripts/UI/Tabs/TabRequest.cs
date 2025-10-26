@@ -10,7 +10,7 @@ namespace UI.Tabs
 {
     public class TabRequest : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _responseText;
+        [SerializeField] private TMP_Text responseText;
         [SerializeField] private Button backButton;
 
         private IWebRequester _requester;
@@ -28,7 +28,7 @@ namespace UI.Tabs
         private async void Start()
         {
             backButton.onClick.AddListener(BackToTabs);
-            _responseText.SetText("Loading...");
+            responseText.SetText("Loading...");
 
             try
             {
@@ -37,16 +37,16 @@ namespace UI.Tabs
 
                 if (string.IsNullOrEmpty(result))
                 {
-                    _responseText.SetText("Empty response");
+                    responseText.SetText("Empty response");
                     return;
                 }
 
                 var formatted = FormatResponse(result);
-                _responseText.SetText(formatted);
+                responseText.SetText(formatted);
             }
             catch (System.Exception e)
             {
-                _responseText.SetText($"Request failed:\n{e.Message}");
+                responseText.SetText($"Request failed:\n{e.Message}");
             }
         }
 
