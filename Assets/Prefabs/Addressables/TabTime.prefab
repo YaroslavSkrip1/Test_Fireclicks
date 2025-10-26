@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a63901f6ee4630a779f51cb68cca8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Tabs.TabTime
-  _timeText: {fileID: 269131511037114715}
+  timeText: {fileID: 269131511037114715}
   backButton: {fileID: 4704155811578356060}
 --- !u!225 &6293149693714069173
 CanvasGroup:

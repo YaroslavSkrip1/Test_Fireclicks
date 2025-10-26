@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b081093bb9548fa8f631959c5efd01c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Tabs.TabRequest
-  _responseText: {fileID: 3781284990649775819}
+  responseText: {fileID: 3781284990649775819}
   backButton: {fileID: 1213478800497998419}
 --- !u!225 &6293149693714069173
 CanvasGroup:

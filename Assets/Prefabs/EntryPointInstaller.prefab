@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0072b27dbe3a4e3286cba9b2af131d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.EntryPointInstaller
-  _projectConfig: {fileID: 11400000, guid: e9e920227bf87fe43a2199acb2912aec, type: 2}
+  projectConfig: {fileID: 11400000, guid: e9e920227bf87fe43a2199acb2912aec, type: 2}
 --- !u!114 &6892355426019307124
 MonoBehaviour:
   m_ObjectHideFlags: 0

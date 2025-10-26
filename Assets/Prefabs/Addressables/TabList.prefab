@@ -250,9 +250,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc17bcea0654bc78bcee2b639146408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.Tabs.TabList
-  _content: {fileID: 1557246534984241942}
-  _scroll: {fileID: 2536468905252010407}
-  _itemPrefab: {fileID: 2132602114389839488, guid: 4d4ce41dd2c22424bb9d1b693fe45a07, type: 3}
+  content: {fileID: 1557246534984241942}
+  scroll: {fileID: 2536468905252010407}
+  itemPrefab: {fileID: 2132602114389839488, guid: 4d4ce41dd2c22424bb9d1b693fe45a07, type: 3}
   backButton: {fileID: 427195844636856900}
 --- !u!225 &6293149693714069173
 CanvasGroup:
